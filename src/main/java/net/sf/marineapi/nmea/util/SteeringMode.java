@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines the steering mode reported in HTC sentence. Steering modes represent
  * steering as selected by a steering selector switch or by a preceding HTC
@@ -66,7 +68,12 @@ public enum SteeringMode {
 	 * electronic means as used in modes {@link #STANDALONE S},
 	 * {@link #HEADING_CONTROL H} or {@link #TRACK_CONTROL T}.
 	 */
-	RUDDER_CONTROL('R');
+	RUDDER_CONTROL('R'),
+
+	/**
+	 * No data available for SteeringMode field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private final char character;
 

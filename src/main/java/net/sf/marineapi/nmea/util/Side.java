@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines the sides of a boat, i.e. "port" and "starboard".
  * 
@@ -31,7 +33,12 @@ public enum Side {
 	PORT('P'),
 
 	/** Right */
-	STARBOARD('S');
+	STARBOARD('S'),
+
+	/**
+	 * No data available for Side field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private char ch;
 

@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * DataStatus defines the validity of data being broadcasted by an NMEA device.
  * 
@@ -34,7 +36,12 @@ public enum DataStatus {
 	 * No valid data available. May also indicate boolean value
 	 * {@code false}.
 	 */
-	VOID('V');
+	VOID('V'),
+
+	/**
+	 * No data available for DataStatus field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private final char character;
 

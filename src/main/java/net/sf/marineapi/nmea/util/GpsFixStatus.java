@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * GpsFixStatus defines the status of current GPS fix.
  * 
@@ -35,7 +37,12 @@ public enum GpsFixStatus {
 	/** 2D GPS fix (lat/lon) */
 	GPS_2D(2),
 	/** 3D GPS fix (lat/lon/alt) */
-	GPS_3D(3);
+	GPS_3D(3),
+
+	/**
+	 * No data available for GpsFixStatus field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private final int status;
 

@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines the relative directions, e.g. "left" and "right".
  * 
@@ -31,7 +33,12 @@ public enum Direction {
 	LEFT('L'),
 
 	/** Right */
-	RIGHT('R');
+	RIGHT('R'),
+
+	/**
+	 * No data available for Direction field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private char ch;
 

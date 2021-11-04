@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines the supported compass and relative directions.
  * 
@@ -34,7 +36,12 @@ public enum CompassPoint {
 	/** South */
 	SOUTH('S'),
 	/** West */
-	WEST('W');
+	WEST('W'),
+
+	/**
+	 * No data available for CompassPoint field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private char ch;
 

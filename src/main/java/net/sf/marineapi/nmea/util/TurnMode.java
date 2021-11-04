@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines how the ship changes heading, as returned by HTC and HTD sentences.
  *
@@ -34,7 +36,12 @@ public enum TurnMode {
 	/** Turn rate controlled */
 	TURN_RATE_CONTROLLED('T'),
 	/** Not controlled */
-	NOT_CONTROLLED('N');
+	NOT_CONTROLLED('N'),
+
+	/**
+	 * No data available for TurnMode field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private final char character;
 

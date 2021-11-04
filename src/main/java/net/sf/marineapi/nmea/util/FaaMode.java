@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * <p>FAA operating modes reported by APB, BWC, BWR, GLL, RMA, RMB, RMC, VTG,
  * WCV and XTE sentences since NMEA 2.3. Also, the mode field in GGA was
@@ -55,7 +57,12 @@ public enum FaaMode {
 	SIMULATED('S'),
 
 	/** No valid GPS data available. */
-	NONE('N');
+	NONE('N'),
+
+	/**
+	 * No data available for FaaMode field.
+	 */
+	NO(NoStatementValues.charNoStatement);
 
 	private final char mode;
 

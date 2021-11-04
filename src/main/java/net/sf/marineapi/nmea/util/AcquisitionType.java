@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Aquisition types.
  *
@@ -33,7 +35,12 @@ public enum AcquisitionType {
 	/** Manual */
 	MANUAL('M'),
 	/** Reported */
-	REPORTED('R');
+	REPORTED('R'),
+
+	/**
+	 * No data available for AcquisitionType field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private char ch;
 

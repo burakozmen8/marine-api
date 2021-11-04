@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * GpsFixQuality defines the supported fix quality types.
  * 
@@ -55,7 +57,12 @@ public enum GpsFixQuality {
 	MANUAL(7),
 
 	/** Simulation mode */
-	SIMULATED(8);
+	SIMULATED(8),
+
+	/**
+	 * No data available for GpsFixQuality field.
+	 */
+	NONE(NoStatementValues.numericNoStatement);
 
 	private final int value;
 

@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines the supported route types.
  * 
@@ -37,7 +39,12 @@ public enum RouteType {
 	 * Working route: the waypoint you just left, the waypoint you're heading to
 	 * and then all the rest.
 	 */
-	WORKING('w');
+	WORKING('w'),
+
+	/**
+	 * No data available for RouteType field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private final char chr;
 

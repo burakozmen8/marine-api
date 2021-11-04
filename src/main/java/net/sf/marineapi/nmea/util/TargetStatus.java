@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines the status of a target reported in a TTM sentence.
  *
@@ -33,7 +35,12 @@ public enum TargetStatus {
 	/** Lost */
 	LOST('L'),
 	/** Tracking */
-	TRACKING('T');
+	TRACKING('T'),
+
+	/**
+	 * No data available for TargetStatus field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private char ch;
 

@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 /**
  * Defines the supported units of measure.
  *  
@@ -53,7 +55,12 @@ public enum Units {
 	KNOT('N'),
 
 	/** Speed in statute miles/hr */
-	MPH('S');
+	MPH('S'),
+
+	/**
+	 * No data available for Units field.
+	 */
+	NONE(NoStatementValues.charNoStatement);
 
 	private char ch;
 

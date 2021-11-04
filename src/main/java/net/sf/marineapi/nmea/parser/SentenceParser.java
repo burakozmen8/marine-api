@@ -372,6 +372,8 @@ public class SentenceParser implements Sentence {
 	 *             than one character
 	 */
 	protected final char getCharValue(int index) {
+		if (!hasValue(index)) { return NoStatementValues.charNoStatement; }
+
 		String val = getStringValue(index);
 		if (val.length() > 1) {
 			String msg = String.format("Expected char, found String [%s]", val);
@@ -387,6 +389,8 @@ public class SentenceParser implements Sentence {
 	 * @return Field as parsed by {@link java.lang.Double#parseDouble(String)}
 	 */
 	protected final double getDoubleValue(int index) {
+		if (!hasValue(index)) { return NoStatementValues.numericNoStatement; }
+
 		double value;
 		try {
 			value = Double.parseDouble(getStringValue(index));
@@ -403,6 +407,8 @@ public class SentenceParser implements Sentence {
 	 * @return Field parsed by {@link java.lang.Integer#parseInt(String)}
 	 */
 	protected final int getIntValue(int index) {
+		if (!hasValue(index)) { return NoStatementValues.numericNoStatement; }
+
 		int value;
 		try {
 			value = Integer.parseInt(getStringValue(index));
@@ -428,7 +434,7 @@ public class SentenceParser implements Sentence {
 	 */
 	protected final String getStringValue(int index) {
 		String value = fields.get(index);
-		if (value == null || "".equals(value)) {
+		if (value == null) {
 			throw new DataNotAvailableException("Data not available");
 		}
 		return value;
@@ -452,7 +458,11 @@ public class SentenceParser implements Sentence {
 	 * @param value Value to set
 	 */
 	protected final void setCharValue(int index, char value) {
-		setStringValue(index, String.valueOf(value));
+		if (value == NoStatementValues.charNoStatement) {
+			setStringValue(index, "");
+		} else {
+			setStringValue(index, String.valueOf(value));
+		}
 	}
 
 	/**
@@ -478,7 +488,11 @@ public class SentenceParser implements Sentence {
 	 * @see #setDoubleValue(int, double, int, int)
 	 */
 	protected final void setDoubleValue(int index, double value) {
-		setStringValue(index, String.valueOf(value));
+		if (value == NoStatementValues.numericNoStatement) {
+			setStringValue(index, "");
+		} else {
+			setStringValue(index, String.valueOf(value));
+		}
 	}
 
 	/**
@@ -496,26 +510,32 @@ public class SentenceParser implements Sentence {
 	protected final void setDoubleValue(int index, double value, int leading,
 		int decimals) {
 
-		StringBuilder pattern = new StringBuilder();
-		for (int i = 0; i < leading; i++) {
-			pattern.append('0');
-		}
-		if (decimals > 0) {
-			pattern.append('.');
-			for (int i = 0; i < decimals; i++) {
+		if (value == NoStatementValues.numericNoStatement) {
+			setStringValue(index, "");
+		} else {
+
+			StringBuilder pattern = new StringBuilder();
+			for (int i = 0; i < leading; i++) {
 				pattern.append('0');
 			}
-		}
-		if (pattern.length() == 0) {
-			pattern.append('0');
+			if (decimals > 0) {
+				pattern.append('.');
+				for (int i = 0; i < decimals; i++) {
+					pattern.append('0');
+				}
+			}
+			if (pattern.length() == 0) {
+				pattern.append('0');
+			}
+
+			DecimalFormat nf = new DecimalFormat(pattern.toString());
+			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+			dfs.setDecimalSeparator('.');
+			nf.setDecimalFormatSymbols(dfs);
+
+			setStringValue(index, nf.format(value));
 		}
 
-		DecimalFormat nf = new DecimalFormat(pattern.toString());
-		DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-		dfs.setDecimalSeparator('.');
-		nf.setDecimalFormatSymbols(dfs);
-
-		setStringValue(index, nf.format(value));
 	}
 
 	/**
@@ -548,7 +568,11 @@ public class SentenceParser implements Sentence {
 	 * @param value Value to set
 	 */
 	protected final void setIntValue(int index, int value) {
-		setStringValue(index, String.valueOf(value));
+		if (value == NoStatementValues.numericNoStatement) {
+			setStringValue(index, "");
+		} else {
+			setStringValue(index, String.valueOf(value));
+		}
 	}
 
 	/**
@@ -560,11 +584,15 @@ public class SentenceParser implements Sentence {
 	 * @param leading Number of digits to use.
 	 */
 	protected final void setIntValue(int index, int value, int leading) {
-		String pattern = "%d";
-		if (leading > 0) {
-			pattern = "%0" + leading + "d";
+		if (value == NoStatementValues.numericNoStatement) {
+			setStringValue(index, "");
+		} else {
+			String pattern = "%d";
+			if (leading > 0) {
+				pattern = "%0" + leading + "d";
+			}
+			setStringValue(index, String.format(pattern, value));
 		}
-		setStringValue(index, String.format(pattern, value));
 	}
 
 	/**
