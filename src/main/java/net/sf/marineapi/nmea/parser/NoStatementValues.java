@@ -13,11 +13,11 @@ public class NoStatementValues {
         NoStatementValues.numericNoStatement = numericNoStatement;
     }
 
-    public boolean isNoStatementValue(int value) {
+    public static boolean isNoStatementValue(int value) {
         return value == numericNoStatement;
     }
 
-    public boolean isNoStatementValue(char value) {
+    public static boolean isNoStatementValue(char value) {
         return value == charNoStatement;
     }
 }
