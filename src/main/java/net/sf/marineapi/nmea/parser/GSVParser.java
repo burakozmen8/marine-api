@@ -141,11 +141,14 @@ class GSVParser extends SentenceParser implements GSVSentence {
     }
 
     public void setSatelliteCount(int count) {
-        if (count < 0) {
+        if (NoStatementValues.isNoStatementValue(count)) {
+            setStringValue(SATELLITES_IN_VIEW, "");
+        } else if (count < 0) {
             throw new IllegalArgumentException(
                     "Satellite count cannot be negative");
+        } else {
+            setIntValue(SATELLITES_IN_VIEW, count);
         }
-        setIntValue(SATELLITES_IN_VIEW, count);
     }
 
     /*
@@ -180,11 +183,14 @@ class GSVParser extends SentenceParser implements GSVSentence {
      * @see net.sf.marineapi.nmea.sentence.GSVSentence#setSentenceCount(int)
      */
     public void setSentenceCount(int count) {
-        if (count < 1) {
+        if (NoStatementValues.isNoStatementValue(count)) {
+            setStringValue(NUMBER_OF_SENTENCES, "");
+        } else if (count < 1) {
             throw new IllegalArgumentException(
                     "Number of sentences cannot be negative");
+        } else {
+            setIntValue(NUMBER_OF_SENTENCES, count);
         }
-        setIntValue(NUMBER_OF_SENTENCES, count);
     }
 
     /*
@@ -192,11 +198,14 @@ class GSVParser extends SentenceParser implements GSVSentence {
      * @see net.sf.marineapi.nmea.sentence.GSVSentence#setSentenceIndex(int)
      */
     public void setSentenceIndex(int index) {
-        if (index < 0) {
+        if (NoStatementValues.isNoStatementValue(index)) {
+            setStringValue(SENTENCE_NUMBER, "");
+        } else if (index < 0) {
             throw new IllegalArgumentException(
                     "Sentence index cannot be negative");
+        } else {
+            setIntValue(SENTENCE_NUMBER, index);
         }
-        setIntValue(SENTENCE_NUMBER, index);
     }
 
 }

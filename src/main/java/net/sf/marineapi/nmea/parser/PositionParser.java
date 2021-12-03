@@ -69,6 +69,8 @@ abstract class PositionParser extends SentenceParser {
 	 * @return Hemisphere of latitude
 	 */
 	protected CompassPoint parseHemisphereLat(int index) {
+		if (!hasValue(index)) { return CompassPoint.NONE; }
+
 		char ch = getCharValue(index);
 		CompassPoint d = CompassPoint.valueOf(ch);
 		if (d != CompassPoint.NORTH && d != CompassPoint.SOUTH) {
@@ -84,6 +86,8 @@ abstract class PositionParser extends SentenceParser {
 	 * @return Hemisphere of longitude
 	 */
 	protected CompassPoint parseHemisphereLon(int index) {
+		if (!hasValue(index)) { return CompassPoint.NONE; }
+
 		char ch = getCharValue(index);
 		CompassPoint d = CompassPoint.valueOf(ch);
 		if (d != CompassPoint.EAST && d != CompassPoint.WEST) {
@@ -103,6 +107,8 @@ abstract class PositionParser extends SentenceParser {
 	 * @return Degrees decimal value
 	 */
 	protected double parseDegrees(int index) {
+
+		if (!hasValue(index)) { return NoStatementValues.numericNoStatement; }
 
 		String field = getStringValue(index);
 		int dotIndex = field.indexOf(".");
@@ -150,11 +156,14 @@ abstract class PositionParser extends SentenceParser {
 	 *             NORTH or SOUTH.
 	 */
 	protected void setLatHemisphere(int field, CompassPoint hem) {
-		if (hem != CompassPoint.NORTH && hem != CompassPoint.SOUTH) {
+		if (hem == CompassPoint.NONE) {
+			setStringValue(field, "");
+		} else if (hem != CompassPoint.NORTH && hem != CompassPoint.SOUTH) {
 			throw new IllegalArgumentException("Invalid latitude hemisphere: "
 				+ hem);
+		} else {
+			setCharValue(field, hem.toChar());
 		}
-		setCharValue(field, hem.toChar());
 	}
 
 	/**
@@ -165,16 +174,23 @@ abstract class PositionParser extends SentenceParser {
 	 */
 	protected void setLatitude(int index, double lat) {
 
-		int deg = (int) Math.floor(lat);
-		double min = (lat - deg) * 60;
+		if (lat == NoStatementValues.numericNoStatement) {
+			setStringValue(index, "");
+		} else {
 
-		DecimalFormat df = new DecimalFormat("00.000");
-		DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-		dfs.setDecimalSeparator('.');
-		df.setDecimalFormatSymbols(dfs);
+			double absLat = Math.abs(lat);
 
-		String result = String.format("%02d%s", deg, df.format(min));
-		setStringValue(index, result);
+			int deg = (int) Math.floor(absLat);
+			double min = (absLat - deg) * 60;
+
+			DecimalFormat df = new DecimalFormat("00.000");
+			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+			dfs.setDecimalSeparator('.');
+			df.setDecimalFormatSymbols(dfs);
+
+			String result = String.format("%02d%s", deg, df.format(min));
+			setStringValue(index, result);
+		}
 	}
 
 	/**
@@ -187,16 +203,23 @@ abstract class PositionParser extends SentenceParser {
 	 */
 	protected void setLongitude(int index, double lon) {
 
-		int deg = (int) Math.floor(lon);
-		double min = (lon - deg) * 60;
+		if (lon == NoStatementValues.numericNoStatement) {
+			setStringValue(index, "");
+		} else {
 
-		DecimalFormat nf = new DecimalFormat("00.000");
-		DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-		dfs.setDecimalSeparator('.');
-		nf.setDecimalFormatSymbols(dfs);
+			double absLon = Math.abs(lon);
 
-		String result = String.format("%03d%s", deg, nf.format(min));
-		setStringValue(index, result);
+			int deg = (int) Math.floor(absLon);
+			double min = (absLon - deg) * 60;
+
+			DecimalFormat nf = new DecimalFormat("00.000");
+			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+			dfs.setDecimalSeparator('.');
+			nf.setDecimalFormatSymbols(dfs);
+
+			String result = String.format("%03d%s", deg, nf.format(min));
+			setStringValue(index, result);
+		}
 	}
 
 	/**
@@ -209,11 +232,14 @@ abstract class PositionParser extends SentenceParser {
 	 *             EAST or WEST.
 	 */
 	protected void setLonHemisphere(int field, CompassPoint hem) {
-		if (hem != CompassPoint.EAST && hem != CompassPoint.WEST) {
+		if (hem == CompassPoint.NONE) {
+			setStringValue(field, "");
+		} else if (hem != CompassPoint.EAST && hem != CompassPoint.WEST) {
 			throw new IllegalArgumentException("Invalid longitude hemisphere: "
-				+ hem);
+					+ hem);
+		} else {
+			setCharValue(field, hem.toChar());
 		}
-		setCharValue(field, hem.toChar());
 	}
 
 	/**
@@ -231,8 +257,8 @@ abstract class PositionParser extends SentenceParser {
 	protected void setPositionValues(Position p, int latIndex, int latHemIndex,
 		int lonIndex, int lonHemIndex) {
 
-		setLatitude(latIndex, Math.abs(p.getLatitude()));
-		setLongitude(lonIndex, Math.abs(p.getLongitude()));
+		setLatitude(latIndex, p.getLatitude());
+		setLongitude(lonIndex, p.getLongitude());
 		setLatHemisphere(latHemIndex, p.getLatitudeHemisphere());
 		setLonHemisphere(lonHemIndex, p.getLongitudeHemisphere());
 	}

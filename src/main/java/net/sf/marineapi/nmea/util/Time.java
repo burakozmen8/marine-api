@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Calendar;
@@ -69,9 +71,15 @@ public class Time {
 	 * @param time Timestamp String
 	 */
 	public Time(String time) {
-		setHour(Integer.parseInt(time.substring(0, 2)));
-		setMinutes(Integer.parseInt(time.substring(2, 4)));
-		setSeconds(Double.parseDouble(time.substring(4)));
+
+		setHour(time.isEmpty() ? NoStatementValues.numericNoStatement : Integer.parseInt(time.substring(0, 2)));
+		setMinutes(time.isEmpty() ? NoStatementValues.numericNoStatement : Integer.parseInt(time.substring(2, 4)));
+		setSeconds(time.isEmpty() ? NoStatementValues.numericNoStatement : Double.parseDouble(time.substring(4)));
+
+		if (time.isEmpty()) {
+			setOffsetHours(NoStatementValues.numericNoStatement);
+			setOffsetMinutes(NoStatementValues.numericNoStatement);
+		}
 	}
 
 	/**
@@ -199,11 +207,14 @@ public class Time {
 	 * @throws IllegalArgumentException If hour value out of bounds 0..23
 	 */
 	public void setHour(int hour) {
-		if (hour < 0 || hour > 23) {
+		if (hour == NoStatementValues.numericNoStatement) {
+			this.hour = hour;
+		} else if (hour < 0 || hour > 23) {
 			throw new IllegalArgumentException(
 				"Valid hour value is between 0..23");
+		} else {
+			this.hour = hour;
 		}
-		this.hour = hour;
 	}
 
 	/**
@@ -213,11 +224,14 @@ public class Time {
 	 * @throws IllegalArgumentException If minutes value out of bounds 0..59
 	 */
 	public void setMinutes(int minutes) {
-		if (minutes < 0 || minutes > 59) {
+		if (minutes == NoStatementValues.numericNoStatement) {
+			this.minutes = minutes;
+		} else if (minutes < 0 || minutes > 59) {
 			throw new IllegalArgumentException(
-				"Valid minutes value is between 0..59");
+					"Valid minutes value is between 0..59");
+		} else {
+			this.minutes = minutes;
 		}
-		this.minutes = minutes;
 	}
 
 	/**
@@ -227,10 +241,13 @@ public class Time {
 	 * @throws IllegalArgumentException If offset out of bounds.
 	 */
 	public void setOffsetHours(int hours) {
-		if (hours < -13  || hours > 13) {
+		if (hours == NoStatementValues.numericNoStatement) {
+			this.offsetHours = hours;
+		} else if (hours < -13  || hours > 13) {
 			throw new IllegalArgumentException("Offset out of bounds [-13..13]");
+		} else {
+			this.offsetHours = hours;
 		}
-		this.offsetHours = hours;
 	}
 
 	/**
@@ -240,10 +257,13 @@ public class Time {
 	 * @throws IllegalArgumentException If offset out of bounds.
 	 */
 	public void setOffsetMinutes(int minutes) {
-		if(minutes < -59 || minutes > 59) {
+		if (minutes == NoStatementValues.numericNoStatement) {
+			this.offsetMinutes = minutes;
+		} else if(minutes < -59 || minutes > 59) {
 				throw new IllegalArgumentException("Offset out of bounds [-59..59]");
+		} else {
+			this.offsetMinutes = minutes;
 		}
-		this.offsetMinutes = minutes;
 	}
 
 	/**
@@ -254,11 +274,14 @@ public class Time {
 	 *             {@code 0 &lt; seconds &lt; 60})
 	 */
 	public void setSeconds(double seconds) {
-		if (seconds < 0 || seconds >= 60) {
+		if (minutes == NoStatementValues.numericNoStatement) {
+			this.seconds = seconds;
+		} else if (seconds < 0 || seconds >= 60) {
 			throw new IllegalArgumentException(
 				"Invalid value for second (0 < seconds < 60)");
+		} else {
+			this.seconds = seconds;
 		}
-		this.seconds = seconds;
 	}
 
 	/**
@@ -313,6 +336,12 @@ public class Time {
 	 */
 	@Override
 	public String toString() {
+		if (getHour() == NoStatementValues.numericNoStatement ||
+				getMinutes() == NoStatementValues.numericNoStatement ||
+				getSeconds() == NoStatementValues.numericNoStatement) {
+			return "";
+		}
+
 		String str = String.format("%02d%02d", getHour(), getMinutes());
 		DecimalFormat nf = new DecimalFormat("00.000");
 		DecimalFormatSymbols dfs = new DecimalFormatSymbols();

@@ -269,10 +269,13 @@ class GGAParser extends PositionParser implements GGASentence {
  	 */
 	@Override
 	public void setSatelliteCount(int count) {
-		if(count < 0) {
+		if (NoStatementValues.isNoStatementValue(count)) {
+			setStringValue(SATELLITES_IN_USE, "");
+		} else if(count < 0) {
 			throw new IllegalArgumentException("Satelite count cannot be negative");
+		} else {
+			setIntValue(SATELLITES_IN_USE, count, 2);
 		}
-		setIntValue(SATELLITES_IN_USE, count, 2);
 	}
 
 	/*

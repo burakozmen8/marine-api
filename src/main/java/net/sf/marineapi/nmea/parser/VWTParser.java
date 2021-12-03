@@ -108,10 +108,13 @@ class VWTParser extends SentenceParser implements VWTSentence {
 	 * @see net.sf.marineapi.nmea.sentence.VWTSentence#setSpeedKmh(double)
 	 */
 	public void setSpeedKmh(double kmh) {
-		if (kmh < 0) {
+		if (kmh == NoStatementValues.numericNoStatement) {
+			setStringValue(SPEED_KNOTS, "");
+		} else if (kmh < 0) {
 			throw new IllegalArgumentException("Speed cannot be negative");
+		} else {
+			setDoubleValue(SPEED_KNOTS, kmh, 1, 2);
 		}
-		setDoubleValue(SPEED_KMPH, kmh, 1, 2);
 	}
 
 	/*
@@ -119,10 +122,13 @@ class VWTParser extends SentenceParser implements VWTSentence {
 	 * @see net.sf.marineapi.nmea.sentence.VWTSentence#setSpeedKnots(double)
 	 */
 	public void setSpeedKnots(double knots) {
-		if (knots < 0) {
+		if (knots == NoStatementValues.numericNoStatement) {
+			setStringValue(SPEED_KNOTS, "");
+		} else if (knots < 0) {
 			throw new IllegalArgumentException("Speed cannot be negative");
+		} else {
+			setDoubleValue(SPEED_KNOTS, knots, 1, 2);
 		}
-		setDoubleValue(SPEED_KNOTS, knots, 1, 2);
 	}
 
 	/*

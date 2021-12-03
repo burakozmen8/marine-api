@@ -103,6 +103,11 @@ class HDGParser extends SentenceParser implements HDGSentence {
 	 * @see net.sf.marineapi.nmea.sentence.HDGSentence#setDeviation(double)
 	 */
 	public void setDeviation(double deviation) {
+		if (deviation == NoStatementValues.numericNoStatement) {
+			setStringValue(DEV_DIRECTION, "");
+			setStringValue(DEVIATION, "");
+			return;
+		}
 		if (deviation < -180 || deviation > 180) {
 			throw new IllegalArgumentException("Value out of range [-180..180]");
 		}
@@ -129,6 +134,11 @@ class HDGParser extends SentenceParser implements HDGSentence {
 	 * @see net.sf.marineapi.nmea.sentence.HDGSentence#setVariation(double)
 	 */
 	public void setVariation(double variation) {
+		if (variation == NoStatementValues.numericNoStatement) {
+			setStringValue(VAR_DIRECTION, "");
+			setStringValue(VARIATION, "");
+			return;
+		}
 		if (variation < -180 || variation > 180) {
 			throw new IllegalArgumentException("Value out of range [-180..180]");
 		}

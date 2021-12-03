@@ -112,10 +112,13 @@ class MWVParser extends SentenceParser implements MWVSentence {
 	 * @see net.sf.marineapi.nmea.sentence.MWVSentence#setSpeed(double)
 	 */
 	public void setSpeed(double speed) {
-		if (speed < 0) {
+		if (speed == NoStatementValues.numericNoStatement) {
+			setStringValue(WIND_SPEED, "");
+		} else if (speed < 0) {
 			throw new IllegalArgumentException("Speed must be positive");
+		} else {
+			setDoubleValue(WIND_SPEED, speed, 1, 1);
 		}
-		setDoubleValue(WIND_SPEED, speed, 1, 1);
 	}
 
 	/*
@@ -125,7 +128,7 @@ class MWVParser extends SentenceParser implements MWVSentence {
 	 * .nmea.util.Units)
 	 */
 	public void setSpeedUnit(Units unit) {
-		if (unit == Units.METER || unit == Units.KMH || unit == Units.KNOT) {
+		if (unit == Units.METER || unit == Units.KMH || unit == Units.KNOT || unit == Units.NONE) {
 			setCharValue(SPEED_UNITS, unit.toChar());
 			return;
 		}

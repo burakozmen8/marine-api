@@ -23,6 +23,7 @@ package net.sf.marineapi.nmea.parser;
 import net.sf.marineapi.nmea.sentence.GNSSentence;
 import net.sf.marineapi.nmea.sentence.SentenceId;
 import net.sf.marineapi.nmea.sentence.TalkerId;
+import net.sf.marineapi.nmea.util.GNSOperationalMode;
 import net.sf.marineapi.nmea.util.Position;
 import net.sf.marineapi.nmea.util.Time;
 
@@ -68,8 +69,8 @@ class GNSParser extends PositionParser implements GNSSentence {
      */
     public GNSParser(TalkerId tid) {
         super(tid, SentenceId.GNS, 12);
-        setTime(new Time());
-        setStringValue(MODE, "NN");
+//        setTime(new Time());
+//        setStringValue(MODE, "NN");
     }
 
     @Override
@@ -93,62 +94,85 @@ class GNSParser extends PositionParser implements GNSSentence {
     }
 
     @Override
-    public Mode getGpsMode() {
-        String modes = getStringValue(MODE);
-        return Mode.valueOf(modes.charAt(GPS_MODE));
-    }
-
-    @Override
-    public void setGpsMode(Mode gps) {
-        String modes = getStringValue(MODE);
-        setStringValue(MODE, gps.toChar() + modes.substring(GNS_MODE));
-    }
-
-    @Override
-    public Mode getGlonassMode() {
-        String modes = getStringValue(MODE);
-        return Mode.valueOf(modes.charAt(GNS_MODE));
-    }
-
-    @Override
-    public void setGlonassMode(Mode gns) {
-
-        String modes = getStringValue(MODE);
-
-        StringBuffer sb = new StringBuffer(modes.length());
-        sb.append(modes.charAt(GPS_MODE));
-        sb.append(gns.toChar());
-
-        if(modes.length() > 2) {
-            sb.append(modes.substring(VAR_MODE));
+    public GNSOperationalMode getGpsMode() {
+        if (!hasValue(MODE)) {
+            return GNSOperationalMode.NO;
         }
-
-        setStringValue(MODE, sb.toString());
+        String modes = getStringValue(MODE);
+        return GNSOperationalMode.valueOf(modes.charAt(GPS_MODE));
     }
 
     @Override
-    public Mode[] getAdditionalModes() {
+    public void setGpsMode(GNSOperationalMode gps) {
+        if (gps == GNSOperationalMode.NO) {
+            setStringValue(MODE, "");
+        } else {
+
+            String modes = getStringValue(MODE);
+            setStringValue(MODE, gps.toChar() + modes.substring(GNS_MODE));
+        }
+    }
+
+    @Override
+    public GNSOperationalMode getGlonassMode() {
+        if (!hasValue(MODE)) {
+            return GNSOperationalMode.NO;
+        }
+        String modes = getStringValue(MODE);
+        return GNSOperationalMode.valueOf(modes.charAt(GNS_MODE));
+    }
+
+    @Override
+    public void setGlonassMode(GNSOperationalMode gns) {
+
+        if (gns == GNSOperationalMode.NO) {
+            setStringValue(MODE, "");
+        } else {
+
+            String modes = getStringValue(MODE);
+
+            StringBuffer sb = new StringBuffer(modes.length());
+            sb.append(modes.charAt(GPS_MODE));
+            sb.append(gns.toChar());
+
+            if(modes.length() > 2) {
+                sb.append(modes.substring(VAR_MODE));
+            }
+            setStringValue(MODE, sb.toString());
+        }
+    }
+
+    @Override
+    public GNSOperationalMode[] getAdditionalModes() {
+        if (!hasValue(MODE)) {
+            return new GNSOperationalMode[0];
+        }
         String mode = getStringValue(MODE);
         if(mode.length() == 2) {
-            return new Mode[0];
+            return new GNSOperationalMode[0];
         }
         String additional = mode.substring(VAR_MODE);
-        Mode[] modes = new Mode[additional.length()];
+        GNSOperationalMode[] GNSOperationalModes = new GNSOperationalMode[additional.length()];
         for (int i = 0; i < additional.length(); i++) {
-            modes[i] = Mode.valueOf(additional.charAt(i));
+            GNSOperationalModes[i] = GNSOperationalMode.valueOf(additional.charAt(i));
         }
-        return modes;
+        return GNSOperationalModes;
     }
 
     @Override
-    public void setAdditionalModes(Mode... modes) {
-        String current = getStringValue(MODE);
-        StringBuffer sb = new StringBuffer(modes.length + 2);
-        sb.append(current.substring(0, VAR_MODE));
-        for (Mode m : modes) {
-            sb.append(m.toChar());
+    public void setAdditionalModes(GNSOperationalMode... GNSOperationalModes) {
+        if (!hasValue(MODE)) {
+            setStringValue(MODE, "");
+        } else {
+
+            String current = getStringValue(MODE);
+            StringBuffer sb = new StringBuffer(GNSOperationalModes.length + 2);
+            sb.append(current.substring(0, VAR_MODE));
+            for (GNSOperationalMode m : GNSOperationalModes) {
+                sb.append(m.toChar());
+            }
+            setStringValue(MODE, sb.toString());
         }
-        setStringValue(MODE, sb.toString());
     }
 
     @Override

@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -67,9 +69,9 @@ public class Date {
 	 * @param date Date String to parse.
 	 */
 	public Date(String date) {
-		setDay(Integer.parseInt(date.substring(0, 2)));
-		setMonth(Integer.parseInt(date.substring(2, 4)));
-		setYear(Integer.parseInt(date.substring(4)));
+		setDay(date.isEmpty() ? NoStatementValues.numericNoStatement : Integer.parseInt(date.substring(0, 2)));
+		setMonth(date.isEmpty() ? NoStatementValues.numericNoStatement : Integer.parseInt(date.substring(2, 4)));
+		setYear(date.isEmpty() ? NoStatementValues.numericNoStatement : Integer.parseInt(date.substring(4)));
 	}
 
 	/**
@@ -154,10 +156,13 @@ public class Date {
 	 * @param day the day to set
 	 */
 	public void setDay(int day) {
-		if (day < 1 || day > 31) {
+		if (NoStatementValues.isNoStatementValue(day)) {
+			this.day = day;
+		} else if (day < 1 || day > 31) {
 			throw new IllegalArgumentException("Day out of bounds [1..31]");
+		} else {
+			this.day = day;
 		}
-		this.day = day;
 	}
 
 	/**
@@ -169,11 +174,14 @@ public class Date {
 	 *             [1..12]
 	 */
 	public void setMonth(int month) {
-		if (month < 1 || month > 12) {
+		if (NoStatementValues.isNoStatementValue(month)) {
+			this.month = month;
+		} else if (month < 1 || month > 12) {
 			throw new IllegalArgumentException(
 				"Month value out of bounds [1..12]");
+		} else {
+			this.month = month;
 		}
-		this.month = month;
 	}
 
 	/**
@@ -189,17 +197,19 @@ public class Date {
 	 *             three-digit value.
 	 */
 	public void setYear(int year) {
-		if (year < 0 || (year > 99 && year < 1000) || year > 9999) {
+		if (NoStatementValues.isNoStatementValue(year)) {
+			this.year = year;
+		} else if (year < 0 || (year > 99 && year < 1000) || year > 9999) {
 			throw new IllegalArgumentException(
 				"Year must be two or four digit value");
-		}
-		if (year < 100 && year > PIVOT_YEAR) {
+		} else if (year < 100 && year > PIVOT_YEAR) {
 			this.year = 1900 + year;
 		} else if (year < 100 && year <= PIVOT_YEAR) {
 			this.year = 2000 + year;
 		} else {
 			this.year = year;
 		}
+
 	}
 
 	/**
@@ -208,6 +218,12 @@ public class Date {
 	 */
 	@Override
 	public String toString() {
+		if (getYear() == NoStatementValues.numericNoStatement ||
+				getDay() == NoStatementValues.numericNoStatement ||
+				getMonth() == NoStatementValues.numericNoStatement) {
+			return "";
+		}
+
 		int y = getYear();
 		String ystr = String.valueOf(y);
 		String year = ystr.substring(2);

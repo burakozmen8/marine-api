@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.util;
 
+import net.sf.marineapi.nmea.parser.NoStatementValues;
+
 import java.text.DecimalFormat;
 
 /**
@@ -152,6 +154,7 @@ public class Position {
 	 * @return CompassPoint.NORTH or CompassPoint.SOUTH
 	 */
 	public CompassPoint getLatitudeHemisphere() {
+		if (latitude == NoStatementValues.numericNoStatement) { return CompassPoint.NONE; }
 		return isLatitudeNorth() ? CompassPoint.NORTH : CompassPoint.SOUTH;
 	}
 
@@ -170,6 +173,7 @@ public class Position {
 	 * @return CompassPoint.EAST or CompassPoint.WEST
 	 */
 	public CompassPoint getLongitudeHemisphere() {
+		if (longitude == NoStatementValues.numericNoStatement) { return CompassPoint.NONE; }
 		return isLongitudeEast() ? CompassPoint.EAST : CompassPoint.WEST;
 	}
 
@@ -209,11 +213,14 @@ public class Position {
 	 *             range 0..90 degrees.
 	 */
 	public void setLatitude(double latitude) {
-		if (latitude < -90 || latitude > 90) {
+		if (latitude == NoStatementValues.numericNoStatement) {
+			this.latitude = latitude;
+		} else if (latitude < -90 || latitude > 90) {
 			throw new IllegalArgumentException(
 				"Latitude out of bounds -90..90 degrees");
+		} else {
+			this.latitude = latitude;
 		}
-		this.latitude = latitude;
 	}
 
 	/**
@@ -224,11 +231,14 @@ public class Position {
 	 *             range 0..180 degrees.
 	 */
 	public void setLongitude(double longitude) {
-		if (longitude < -180 || longitude > 180) {
+		if (longitude == NoStatementValues.numericNoStatement) {
+			this.longitude = longitude;
+		} else if (longitude < -180 || longitude > 180) {
 			throw new IllegalArgumentException(
 				"Longitude out of bounds -180..180 degrees");
+		} else {
+			this.longitude = longitude;
 		}
-		this.longitude = longitude;
 	}
 
 	/*

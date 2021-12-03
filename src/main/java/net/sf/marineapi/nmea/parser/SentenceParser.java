@@ -473,10 +473,13 @@ public class SentenceParser implements Sentence {
 	 * @throws IllegalArgumentException If degrees value out of range [0..360]
 	 */
 	protected final void setDegreesValue(int index, double deg) {
-		if (deg < 0 || deg > 360) {
+		if (deg == NoStatementValues.numericNoStatement) {
+			setDoubleValue(index, deg);
+		} else if (deg < 0 || deg > 360) {
 			throw new IllegalArgumentException("Value out of bounds [0..360]");
+		} else {
+			setDoubleValue(index, deg, 3, 1);
 		}
-		setDoubleValue(index, deg, 3, 1);
 	}
 
 	/**

@@ -20,6 +20,8 @@
  */
 package net.sf.marineapi.nmea.sentence;
 
+import net.sf.marineapi.nmea.util.GNSOperationalMode;
+
 /**
  * <p>
  * GNSS capable receivers will always output this message with the {@code GN} talker ID.
@@ -39,102 +41,47 @@ package net.sf.marineapi.nmea.sentence;
 public interface GNSSentence extends Sentence, PositionSentence, TimeSentence {
 
     /**
-     * GNS operational modes, a mix of {@link net.sf.marineapi.nmea.util.FaaMode}
-     * and {@link net.sf.marineapi.nmea.util.GpsFixQuality} with some omitted
-     * values.
-     */
-    enum Mode {
-        /** Operating in autonomous mode (automatic 2D/3D). */
-        AUTOMATIC('A'),
-        /** Operating in manual mode (forced 2D or 3D). */
-        MANUAL('M'),
-        /** Operating in differential mode (DGPS). */
-        DGPS('D'),
-        /** Operating in estimating mode (dead-reckoning). */
-        ESTIMATED('E'),
-        /** Real Time Kinetic, satellite system used in RTK mode with fixed integers. */
-        RTK('R'),
-        /** Float RTK, satellite system used in real time kinematic mode with floating integers. */
-        FRTK('F'),
-        /** Precise mode, no deliberate degradation like Selective Availability (NMEA 4.00 and later). */
-        PRECISE('P'),
-        /** Simulated data (running in simulator/demo mode). */
-        SIMULATED('S'),
-        /** No valid GPS data available. */
-        NONE('N');
-
-        private final char ch;
-
-        Mode(char c) {
-            this.ch = c;
-        }
-
-        /**
-         * Returns the operational mode character.
-         *
-         * @return char indicator of mode
-         */
-        public char toChar() {
-            return ch;
-        }
-
-        /**
-         * Returns the operational mode for given char.
-         * @param ch Char indicator
-         * @return Operational mode enum
-         */
-        public static Mode valueOf(char ch) {
-            for (Mode m : values()) {
-                if (m.toChar() == ch) {
-                    return m;
-                }
-            }
-            return valueOf(String.valueOf(ch));
-        }
-    }
-
-    /**
      * Returns the current GPS mode.
      *
      * @return GPS operational mode
      */
-    Mode getGpsMode();
+    GNSOperationalMode getGpsMode();
 
     /**
      * Sets the current GPS mode.
      *
      * @param gps GPS operational mode to set.
      */
-    void setGpsMode(Mode gps);
+    void setGpsMode(GNSOperationalMode gps);
 
     /**
      * Gets the current GLONASS mode.
      *
      * @return GLONASS operational mode
      */
-    Mode getGlonassMode();
+    GNSOperationalMode getGlonassMode();
 
     /**
      * Sets the current GLONASS mode.
      *
      * @param gns GLONASS operational mode to set.
      */
-    void setGlonassMode(Mode gns);
+    void setGlonassMode(GNSOperationalMode gns);
 
     /**
      * Returns all additional operation modes, excluding GPS and GLONASS.
      *
      * @return Array of additional modes or empty array if no modes are set.
      */
-    Mode[] getAdditionalModes();
+    GNSOperationalMode[] getAdditionalModes();
 
     /**
      * Sets the additional operational modes, leaving GPS and GLONASS modes unaffected
      * or setting them both {@code NONE} if field is empty.
      *
-     * @param modes Array of additional modes to set
+     * @param GNSOperationalModes Array of additional modes to set
      */
-    void setAdditionalModes(Mode... modes);
+    void setAdditionalModes(GNSOperationalMode... GNSOperationalModes);
 
     /**
      * Get the number of active satellites in use for currect fix.

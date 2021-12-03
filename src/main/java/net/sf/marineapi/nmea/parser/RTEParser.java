@@ -186,10 +186,13 @@ class RTEParser extends SentenceParser implements RTESentence {
 	 * @see net.sf.marineapi.nmea.sentence.RTESentence#setSentenceCount(int)
 	 */
 	public void setSentenceCount(int count) {
-		if (count < 0) {
+		if (NoStatementValues.isNoStatementValue(count)) {
+			setStringValue(NUMBER_OF_SENTENCES, "");
+		} else if (count < 0) {
 			throw new IllegalArgumentException("Count cannot be negative");
+		} else {
+			setIntValue(NUMBER_OF_SENTENCES, count);
 		}
-		setIntValue(NUMBER_OF_SENTENCES, count);
 	}
 
 	/*
@@ -197,10 +200,13 @@ class RTEParser extends SentenceParser implements RTESentence {
 	 * @see net.sf.marineapi.nmea.sentence.RTESentence#setSentenceIndex(int)
 	 */
 	public void setSentenceIndex(int index) {
-		if (index < 0) {
+		if (NoStatementValues.isNoStatementValue(index)) {
+			setStringValue(SENTENCE_NUMBER, "");
+		} else if (index < 0) {
 			throw new IllegalArgumentException("Index cannot be negative");
+		} else {
+			setIntValue(SENTENCE_NUMBER, index);
 		}
-		setIntValue(SENTENCE_NUMBER, index);
 	}
 
 	/*

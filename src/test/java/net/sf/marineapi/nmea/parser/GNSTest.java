@@ -21,10 +21,10 @@
 package net.sf.marineapi.nmea.parser;
 
 import net.sf.marineapi.nmea.sentence.GNSSentence;
-import net.sf.marineapi.nmea.sentence.GNSSentence.Mode;
 import net.sf.marineapi.nmea.sentence.SentenceId;
 import net.sf.marineapi.nmea.sentence.TalkerId;
 import net.sf.marineapi.nmea.util.CompassPoint;
+import net.sf.marineapi.nmea.util.GNSOperationalMode;
 import net.sf.marineapi.nmea.util.Position;
 import net.sf.marineapi.nmea.util.Time;
 import org.junit.Before;
@@ -104,49 +104,49 @@ public class GNSTest {
 
     @Test
     public void getGpsMode() throws Exception {
-        assertEquals(Mode.RTK, gns.getGpsMode());
-        assertEquals(Mode.NONE, empty.getGpsMode());
+        assertEquals(GNSOperationalMode.RTK, gns.getGpsMode());
+        assertEquals(GNSOperationalMode.NONE, empty.getGpsMode());
     }
 
     @Test
     public void setGpsMode() throws Exception {
-        gns.setGpsMode(Mode.DGPS);
+        gns.setGpsMode(GNSOperationalMode.DGPS);
         assertTrue(gns.toString().contains(",DR,"));
-        assertEquals(Mode.DGPS, gns.getGpsMode());
-        assertEquals(Mode.RTK, gns.getGlonassMode());
+        assertEquals(GNSOperationalMode.DGPS, gns.getGpsMode());
+        assertEquals(GNSOperationalMode.RTK, gns.getGlonassMode());
         assertEquals(0, gns.getAdditionalModes().length);
     }
 
     @Test
     public void getGlonassMode() throws Exception {
-        assertEquals(Mode.RTK, gns.getGlonassMode());
-        assertEquals(Mode.NONE, empty.getGlonassMode());
+        assertEquals(GNSOperationalMode.RTK, gns.getGlonassMode());
+        assertEquals(GNSOperationalMode.NONE, empty.getGlonassMode());
     }
 
     @Test
     public void setGlonassMode() throws Exception {
-        gns.setGlonassMode(Mode.FRTK);
+        gns.setGlonassMode(GNSOperationalMode.FRTK);
         assertTrue(gns.toString().contains(",RF,"));
-        assertEquals(Mode.FRTK, gns.getGlonassMode());
-        assertEquals(Mode.RTK, gns.getGpsMode());
+        assertEquals(GNSOperationalMode.FRTK, gns.getGlonassMode());
+        assertEquals(GNSOperationalMode.RTK, gns.getGpsMode());
         assertEquals(0, gns.getAdditionalModes().length);
     }
 
     @Test
     public void setAdditionalModes() throws Exception {
-        gns.setAdditionalModes(Mode.AUTOMATIC, Mode.ESTIMATED);
+        gns.setAdditionalModes(GNSOperationalMode.AUTOMATIC, GNSOperationalMode.ESTIMATED);
         assertTrue(gns.toString().contains(",RRAE,"));
-        assertEquals(Mode.RTK, gns.getGpsMode());
-        assertEquals(Mode.RTK, gns.getGlonassMode());
+        assertEquals(GNSOperationalMode.RTK, gns.getGpsMode());
+        assertEquals(GNSOperationalMode.RTK, gns.getGlonassMode());
     }
 
     @Test
     public void getAdditionalModes() throws Exception {
-        gns.setAdditionalModes(Mode.AUTOMATIC, Mode.ESTIMATED);
-        Mode[] additional = gns.getAdditionalModes();
+        gns.setAdditionalModes(GNSOperationalMode.AUTOMATIC, GNSOperationalMode.ESTIMATED);
+        GNSOperationalMode[] additional = gns.getAdditionalModes();
         assertEquals(2, additional.length);
-        assertEquals(Mode.AUTOMATIC, additional[0]);
-        assertEquals(Mode.ESTIMATED, additional[1]);
+        assertEquals(GNSOperationalMode.AUTOMATIC, additional[0]);
+        assertEquals(GNSOperationalMode.ESTIMATED, additional[1]);
     }
 
     @Test

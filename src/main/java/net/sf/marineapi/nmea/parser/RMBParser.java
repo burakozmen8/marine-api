@@ -223,7 +223,7 @@ class RMBParser extends PositionParser implements RMBSentence {
 	 * .nmea.util.Direction)
 	 */
 	public void setSteerTo(Direction steer) {
-		if (steer != Direction.LEFT && steer != Direction.RIGHT) {
+		if (steer != Direction.LEFT && steer != Direction.RIGHT && steer != Direction.NONE) {
 			throw new IllegalArgumentException(
 					"Expected steer-to is LEFT or RIGHT.");
 		}

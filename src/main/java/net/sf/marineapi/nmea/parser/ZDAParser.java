@@ -121,11 +121,14 @@ class ZDAParser extends SentenceParser implements ZDASentence {
 	 * @see net.sf.marineapi.nmea.sentence.ZDASentence#setLocalZoneHours(int)
 	 */
 	public void setLocalZoneHours(int hours) {
-		if (hours < -13 || hours > 13) {
+		if (NoStatementValues.isNoStatementValue(hours)) {
+			setStringValue(LOCAL_ZONE_HOURS, "");
+		} else if (hours < -13 || hours > 13) {
 			throw new IllegalArgumentException(
 				"Value must be within range -13..13");
+		} else {
+			setIntValue(LOCAL_ZONE_HOURS, hours, 2);
 		}
-		setIntValue(LOCAL_ZONE_HOURS, hours, 2);
 	}
 
 	/*
@@ -133,11 +136,14 @@ class ZDAParser extends SentenceParser implements ZDASentence {
 	 * @see net.sf.marineapi.nmea.sentence.ZDASentence#setLocalZoneMinutes()
 	 */
 	public void setLocalZoneMinutes(int minutes) {
-		if (minutes < -59 || minutes > 59) {
+		if (NoStatementValues.isNoStatementValue(minutes)) {
+			setStringValue(LOCAL_ZONE_MINUTES, "");
+		} else if (minutes < -59 || minutes > 59) {
 			throw new IllegalArgumentException(
 				"Value must be within range -59..59");
+		} else {
+			setIntValue(LOCAL_ZONE_MINUTES, minutes, 2);
 		}
-		setIntValue(LOCAL_ZONE_MINUTES, minutes, 2);
 	}
 
 	/*
