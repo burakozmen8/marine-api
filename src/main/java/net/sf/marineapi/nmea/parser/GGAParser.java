@@ -85,7 +85,7 @@ class GGAParser extends PositionParser implements GGASentence {
 	 */
 	public Units getAltitudeUnits() {
 		char ch = getCharValue(ALTITUDE_UNITS);
-		if (ch != ALT_UNIT_METERS && ch != ALT_UNIT_FEET) {
+		if (ch != Units.METER.toChar() && ch != Units.FEET.toChar() && ch != Units.NONE.toChar()) {
 			String msg = "Invalid altitude unit indicator: %s";
 			throw new ParseException(String.format(msg, ch));
 		}

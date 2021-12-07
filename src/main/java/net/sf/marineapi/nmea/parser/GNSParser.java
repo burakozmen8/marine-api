@@ -108,8 +108,16 @@ class GNSParser extends PositionParser implements GNSSentence {
             setStringValue(MODE, "");
         } else {
 
+            StringBuilder sb = new StringBuilder();
             String modes = getStringValue(MODE);
-            setStringValue(MODE, gps.toChar() + modes.substring(GNS_MODE));
+
+            if (modes.length() > GNS_MODE) {
+                sb.append(gps.toChar());
+                sb.append(modes.substring(GNS_MODE));
+            } else {
+                sb.append(gps.toChar());
+            }
+            setStringValue(MODE, sb.toString());
         }
     }
 
@@ -129,15 +137,21 @@ class GNSParser extends PositionParser implements GNSSentence {
             setStringValue(MODE, "");
         } else {
 
+            StringBuilder sb = new StringBuilder();
             String modes = getStringValue(MODE);
 
-            StringBuffer sb = new StringBuffer(modes.length());
-            sb.append(modes.charAt(GPS_MODE));
-            sb.append(gns.toChar());
-
-            if(modes.length() > 2) {
+            if (modes.isEmpty()) {
+                sb.append(GNSOperationalMode.NO.toChar());
+                sb.append(gns.toChar());
+            } else if (modes.length() == 1) {
+                sb.append(modes.charAt(GPS_MODE));
+                sb.append(gns.toChar());
+            } else {
+                sb.append(modes.charAt(GPS_MODE));
+                sb.append(gns.toChar());
                 sb.append(modes.substring(VAR_MODE));
             }
+
             setStringValue(MODE, sb.toString());
         }
     }
@@ -165,12 +179,28 @@ class GNSParser extends PositionParser implements GNSSentence {
             setStringValue(MODE, "");
         } else {
 
-            String current = getStringValue(MODE);
-            StringBuffer sb = new StringBuffer(GNSOperationalModes.length + 2);
-            sb.append(current.substring(0, VAR_MODE));
-            for (GNSOperationalMode m : GNSOperationalModes) {
-                sb.append(m.toChar());
+            StringBuilder sb = new StringBuilder();
+            String modes = getStringValue(MODE);
+
+            if (modes.isEmpty()) {
+                sb.append(GNSOperationalMode.NO.toChar());
+                sb.append(GNSOperationalMode.NO.toChar());
+                for (GNSOperationalMode m : GNSOperationalModes) {
+                    sb.append(m.toChar());
+                }
+            } else if (modes.length() == 1) {
+                sb.append(modes.charAt(GPS_MODE));
+                sb.append(GNSOperationalMode.NO.toChar());
+                for (GNSOperationalMode m : GNSOperationalModes) {
+                    sb.append(m.toChar());
+                }
+            } else {
+                sb.append(modes, 0, VAR_MODE);
+                for (GNSOperationalMode m : GNSOperationalModes) {
+                    sb.append(m.toChar());
+                }
             }
+
             setStringValue(MODE, sb.toString());
         }
     }
