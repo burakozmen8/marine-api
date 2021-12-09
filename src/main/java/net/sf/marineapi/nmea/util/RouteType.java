@@ -44,11 +44,11 @@ public enum RouteType {
 	/**
 	 * No data available for RouteType field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NONE(Character.MIN_VALUE);
 
 	private final char chr;
 
-	private RouteType(char c) {
+	RouteType(char c) {
 		chr = c;
 	}
 
@@ -58,6 +58,9 @@ public enum RouteType {
 	 * @return Char
 	 */
 	public char toChar() {
+		if (chr == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return chr;
 	}
 

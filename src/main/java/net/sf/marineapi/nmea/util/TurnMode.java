@@ -41,7 +41,7 @@ public enum TurnMode {
 	/**
 	 * No data available for TurnMode field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
 	private final char character;
 
@@ -55,6 +55,9 @@ public enum TurnMode {
 	 * @return Char indicator for TurnMode
 	 */
 	public char toChar() {
+		if (character == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return character;
 	}
 

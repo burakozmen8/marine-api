@@ -38,9 +38,9 @@ public enum Side {
 	/**
 	 * No data available for Side field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NONE(Character.MIN_VALUE);
 
-	private char ch;
+	private final char ch;
 
 	Side(char c) {
 		ch = c;
@@ -52,6 +52,9 @@ public enum Side {
 	 * @return Char indicator for Direction
 	 */
 	public char toChar() {
+		if (ch == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return ch;
 	}
 

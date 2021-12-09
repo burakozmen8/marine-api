@@ -48,7 +48,7 @@ public enum GNSOperationalMode {
     /**
      * No data available for Mode field.
      */
-    NO(NoStatementValues.charNoStatement);
+    NO(Character.MIN_VALUE);
 
     private final char ch;
 
@@ -62,6 +62,9 @@ public enum GNSOperationalMode {
      * @return char indicator of mode
      */
     public char toChar() {
+        if (ch == Character.MIN_VALUE) {
+            return NoStatementValues.charNoStatement;
+        }
         return ch;
     }
 

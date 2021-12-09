@@ -69,7 +69,7 @@ abstract class PositionParser extends SentenceParser {
 	 * @return Hemisphere of latitude
 	 */
 	protected CompassPoint parseHemisphereLat(int index) {
-		if (!hasValue(index)) { return CompassPoint.NONE; }
+		if (!hasValue(index)) { return CompassPoint.NO; }
 
 		char ch = getCharValue(index);
 		CompassPoint d = CompassPoint.valueOf(ch);
@@ -86,7 +86,7 @@ abstract class PositionParser extends SentenceParser {
 	 * @return Hemisphere of longitude
 	 */
 	protected CompassPoint parseHemisphereLon(int index) {
-		if (!hasValue(index)) { return CompassPoint.NONE; }
+		if (!hasValue(index)) { return CompassPoint.NO; }
 
 		char ch = getCharValue(index);
 		CompassPoint d = CompassPoint.valueOf(ch);
@@ -156,7 +156,7 @@ abstract class PositionParser extends SentenceParser {
 	 *             NORTH or SOUTH.
 	 */
 	protected void setLatHemisphere(int field, CompassPoint hem) {
-		if (hem == CompassPoint.NONE) {
+		if (hem == CompassPoint.NO) {
 			setStringValue(field, "");
 		} else if (hem != CompassPoint.NORTH && hem != CompassPoint.SOUTH) {
 			throw new IllegalArgumentException("Invalid latitude hemisphere: "
@@ -232,7 +232,7 @@ abstract class PositionParser extends SentenceParser {
 	 *             EAST or WEST.
 	 */
 	protected void setLonHemisphere(int field, CompassPoint hem) {
-		if (hem == CompassPoint.NONE) {
+		if (hem == CompassPoint.NO) {
 			setStringValue(field, "");
 		} else if (hem != CompassPoint.EAST && hem != CompassPoint.WEST) {
 			throw new IllegalArgumentException("Invalid longitude hemisphere: "

@@ -179,7 +179,7 @@ class RMCParser extends PositionParser implements RMCSentence {
 	 * .sf.marineapi.nmea.util.Direction)
 	 */
 	public void setDirectionOfVariation(CompassPoint dir) {
-		if (dir == CompassPoint.NONE) {
+		if (dir == CompassPoint.NO) {
 			setStringValue(VAR_HEMISPHERE, "");
 		} else if (dir != CompassPoint.EAST && dir != CompassPoint.WEST) {
 			throw new IllegalArgumentException(

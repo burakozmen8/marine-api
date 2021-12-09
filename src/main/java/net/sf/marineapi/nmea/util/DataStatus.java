@@ -41,7 +41,7 @@ public enum DataStatus {
 	/**
 	 * No data available for DataStatus field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
 	private final char character;
 
@@ -55,6 +55,9 @@ public enum DataStatus {
 	 * @return Char indicator for DataStatus
 	 */
 	public char toChar() {
+		if (character == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return character;
 	}
 

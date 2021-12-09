@@ -40,9 +40,9 @@ public enum AcquisitionType {
 	/**
 	 * No data available for AcquisitionType field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
-	private char ch;
+	private final char ch;
 
 	AcquisitionType(char ch) {
 		this.ch = ch;
@@ -54,6 +54,9 @@ public enum AcquisitionType {
 	 * @return Char indicator for AcquisitionType
 	 */
 	public char toChar() {
+		if (ch == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return ch;
 	}
 

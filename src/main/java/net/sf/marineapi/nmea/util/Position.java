@@ -154,7 +154,7 @@ public class Position {
 	 * @return CompassPoint.NORTH or CompassPoint.SOUTH
 	 */
 	public CompassPoint getLatitudeHemisphere() {
-		if (latitude == NoStatementValues.numericNoStatement) { return CompassPoint.NONE; }
+		if (latitude == NoStatementValues.numericNoStatement) { return CompassPoint.NO; }
 		return isLatitudeNorth() ? CompassPoint.NORTH : CompassPoint.SOUTH;
 	}
 
@@ -173,7 +173,7 @@ public class Position {
 	 * @return CompassPoint.EAST or CompassPoint.WEST
 	 */
 	public CompassPoint getLongitudeHemisphere() {
-		if (longitude == NoStatementValues.numericNoStatement) { return CompassPoint.NONE; }
+		if (longitude == NoStatementValues.numericNoStatement) { return CompassPoint.NO; }
 		return isLongitudeEast() ? CompassPoint.EAST : CompassPoint.WEST;
 	}
 

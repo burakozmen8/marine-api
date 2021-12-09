@@ -41,11 +41,11 @@ public enum CompassPoint {
 	/**
 	 * No data available for CompassPoint field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
-	private char ch;
+	private final char ch;
 
-	private CompassPoint(char c) {
+	CompassPoint(char c) {
 		this.ch = c;
 	}
 
@@ -55,6 +55,9 @@ public enum CompassPoint {
 	 * @return Char indicator for Direction
 	 */
 	public char toChar() {
+		if (ch == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return ch;
 	}
 

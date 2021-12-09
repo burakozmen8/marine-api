@@ -62,7 +62,7 @@ public enum FaaMode {
 	/**
 	 * No data available for FaaMode field.
 	 */
-	NO(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
 	private final char mode;
 
@@ -76,6 +76,9 @@ public enum FaaMode {
 	 * @return Mode char used in sentences.
 	 */
 	public char toChar() {
+		if (mode == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return mode;
 	}
 

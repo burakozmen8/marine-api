@@ -62,7 +62,7 @@ public enum GpsFixQuality {
 	/**
 	 * No data available for GpsFixQuality field.
 	 */
-	NONE(NoStatementValues.numericNoStatement);
+	NO(Integer.MIN_VALUE);
 
 	private final int value;
 
@@ -76,6 +76,9 @@ public enum GpsFixQuality {
 	 * @return Fix quality indicator value as indicated in sentences.
 	 */
 	public int toInt() {
+		if (value == Integer.MIN_VALUE) {
+			return NoStatementValues.numericNoStatement;
+		}
 		return value;
 	}
 

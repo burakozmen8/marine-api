@@ -38,11 +38,11 @@ public enum Direction {
 	/**
 	 * No data available for Direction field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
-	private char ch;
+	private final char ch;
 
-	private Direction(char c) {
+	Direction(char c) {
 		ch = c;
 	}
 
@@ -52,6 +52,9 @@ public enum Direction {
 	 * @return Char indicator for Direction
 	 */
 	public char toChar() {
+		if (ch == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return ch;
 	}
 

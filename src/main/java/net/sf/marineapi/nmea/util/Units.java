@@ -60,11 +60,11 @@ public enum Units {
 	/**
 	 * No data available for Units field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
-	private char ch;
+	private final char ch;
 
-	private Units(char c) {
+	Units(char c) {
 		ch = c;
 	}
 
@@ -74,6 +74,9 @@ public enum Units {
 	 * @return Char indicator of enum
 	 */
 	public char toChar() {
+		if (ch == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return ch;
 	}
 

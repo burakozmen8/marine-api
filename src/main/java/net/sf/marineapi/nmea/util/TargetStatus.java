@@ -40,9 +40,9 @@ public enum TargetStatus {
 	/**
 	 * No data available for TargetStatus field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
-	private char ch;
+	private final char ch;
 
 	TargetStatus(char ch) {
 		this.ch = ch;
@@ -54,6 +54,9 @@ public enum TargetStatus {
 	 * @return Char indicator for Status
 	 */
 	public char toChar() {
+		if (ch == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return ch;
 	}
 

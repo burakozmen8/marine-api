@@ -73,7 +73,7 @@ public enum SteeringMode {
 	/**
 	 * No data available for SteeringMode field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Character.MIN_VALUE);
 
 	private final char character;
 
@@ -87,6 +87,9 @@ public enum SteeringMode {
 	 * @return Char indicator for SteeringMode
 	 */
 	public char toChar() {
+		if (character == Character.MIN_VALUE) {
+			return NoStatementValues.charNoStatement;
+		}
 		return character;
 	}
 

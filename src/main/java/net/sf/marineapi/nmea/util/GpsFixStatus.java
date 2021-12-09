@@ -42,7 +42,7 @@ public enum GpsFixStatus {
 	/**
 	 * No data available for GpsFixStatus field.
 	 */
-	NONE(NoStatementValues.charNoStatement);
+	NO(Integer.MIN_VALUE);
 
 	private final int status;
 
@@ -56,6 +56,9 @@ public enum GpsFixStatus {
 	 * @return Fix status integer values as in sentences
 	 */
 	public int toInt() {
+		if (status == Integer.MIN_VALUE) {
+			return NoStatementValues.numericNoStatement;
+		}
 		return status;
 	}
 
