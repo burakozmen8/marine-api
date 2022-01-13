@@ -274,27 +274,27 @@ class MDAParser extends SentenceParser implements MDASentence {
 
     @Override
     public void setAbsoluteHumidity(double humitidy) {
-        setDoubleValue(ABSOLUTE_HUMIDITY, humitidy);
+        setDoubleValue(ABSOLUTE_HUMIDITY, humitidy, 1, 1);
     }
 
     @Override
     public void setAirTemperature(double temp) {
-        setDoubleValue(AIR_TEMPERATURE, temp);
+        setDoubleValue(AIR_TEMPERATURE, temp, 1, 1);
     }
 
     @Override
     public void setDewPoint(double dewPoint) {
-        setDoubleValue(DEW_POINT, dewPoint);
+        setDoubleValue(DEW_POINT, dewPoint, 1, 1);
     }
 
     @Override
     public void setMagneticWindDirection(double direction) {
-        setDoubleValue(WIND_DIRECTION_MAGNETIC, direction);
+        setDoubleValue(WIND_DIRECTION_MAGNETIC, direction, 1, 1);
     }
 
     @Override
     public void setPrimaryBarometricPressure(double pressure) {
-        setDoubleValue(PRIMARY_BAROMETRIC_PRESSURE, pressure);
+        setDoubleValue(PRIMARY_BAROMETRIC_PRESSURE, pressure, 1, 2);
     }
 
     @Override
@@ -304,12 +304,12 @@ class MDAParser extends SentenceParser implements MDASentence {
 
     @Override
     public void setRelativeHumidity(double humidity) {
-        setDoubleValue(RELATIVE_HUMIDITY, humidity);
+        setDoubleValue(RELATIVE_HUMIDITY, humidity, 1, 1);
     }
 
     @Override
     public void setSecondaryBarometricPressure(double pressure) {
-        setDoubleValue(SECONDARY_BAROMETRIC_PRESSURE, pressure);
+        setDoubleValue(SECONDARY_BAROMETRIC_PRESSURE, pressure, 1, 3);
     }
 
     @Override
@@ -319,23 +319,23 @@ class MDAParser extends SentenceParser implements MDASentence {
 
     @Override
     public void setTrueWindDirection(double direction) {
-        setDoubleValue(WIND_DIRECTION_TRUE, direction);
+        setDoubleValue(WIND_DIRECTION_TRUE, direction, 1, 1);
 
     }
 
     @Override
     public void setWaterTemperature(double temp) {
-        setDoubleValue(WATER_TEMPERATURE, temp);
+        setDoubleValue(WATER_TEMPERATURE, temp, 1, 1);
 
     }
 
 	@Override
     public void setWindSpeed(double speed) {
-        setDoubleValue(WIND_SPEED_METERS, speed);
+        setDoubleValue(WIND_SPEED_METERS, speed, 1, 1);
     }
 
 	@Override
     public void setWindSpeedKnots(double speed) {
-        setDoubleValue(WIND_SPEED_KNOTS, speed);
+        setDoubleValue(WIND_SPEED_KNOTS, speed,1,1);
     }
 }

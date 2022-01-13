@@ -247,7 +247,7 @@ class TTMParser extends SentenceParser implements TTMSentence {
 	 */
 	@Override
 	public void setDistance(double distance) {
-		setDoubleValue(DISTANCE, distance, 1, 1);
+		setDoubleValue(DISTANCE, distance, 1, 2);
 		setCharValue(UNITS, 'N');
 	}
 
@@ -291,7 +291,7 @@ class TTMParser extends SentenceParser implements TTMSentence {
 	 */
 	@Override
 	public void setDistanceOfCPA(double distance) {
-		setDoubleValue(DISTANCE_CPA, distance, 1, 1);
+		setDoubleValue(DISTANCE_CPA, distance, 1, 2);
 		setCharValue(UNITS, 'N');
 	}
 
@@ -302,7 +302,7 @@ class TTMParser extends SentenceParser implements TTMSentence {
 	 */
 	@Override
 	public void setTimeToCPA(double minutes) {
-		setDoubleValue(TIME_CPA, minutes, 1, 1);
+		setDoubleValue(TIME_CPA, minutes, 1, 2);
 	}
 
 	/*
